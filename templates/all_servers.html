@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block hovor %}
+<ul class="nav nav-pills">
+    <li role="presentation"><a href="/">Group List</a></li>
+    <li role="presentation"><a href="/servers">Server List</a></li>
+	<li role="presentation" class="active"><a href="/all_servers">All List</a></li>
+</ul>
+{% endblock %}
+{% block body %}
+<div class="page-header">
+    <h1>All List
+        <small>controlled by supervisor</small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <ul class="nav nav-pills nav-stacked">
+            {% for server in servers %}
+            <li role="presentation" style="background-color: lemonchiffon  ">
+               <a href="#" onclick="show_server_status('{{server.id}}')">
+                    {{server.host}}:{{server.port}} {{server.Id}}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-8" id="server_div">
+    </div>
+</div>
+
+
+{% for container_info in all_container_list %}
+
+<!--<h4>{{uri}}</h4>-->
+<h3>Host: {{container_info.host}}</h3>
+<table class="table table-striped">
+    <tr>
+        <th width="10%">state</th>
+        <th width="10%">app</thw>
+        <th width="40%">location</th>
+        <th width="30%">description</th>
+        <th colspan="4" width="10%">operation</th>
+    </tr>
+    
+</table>
+{% endfor %}
+
+
+{% endblock %}
+
+
+
+
+</body>
+</html>
