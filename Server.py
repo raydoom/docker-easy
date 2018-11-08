@@ -73,7 +73,7 @@ class Server(object):
 		log_old, log_new = '', ''
 		secs = 0
 		while secs < 300 :		
-			log = func(container_uuid, tail=10)
+			log = func(container_uuid, tail=15)
 			log = log.decode()
 			time.sleep(0.5)
 			secs = secs+1

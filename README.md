@@ -5,11 +5,12 @@
 This tool is developed to manage distributed docker server centrally.
 The module used are:
 - python3.6
-- Flask  web server
+- Flask1.0.2
 - bootstrap + jquery UI
+- docker-py1.10.6
 
 ## Usage
-
+- pip3 install flask docker-py
 - git clone https://github.com/raydoom/docker-easy.git
 - edit config.py
 
@@ -45,5 +46,5 @@ run this program  `python webui.py`
 open http://ip:8896/all_servers/
 
 ## Todos
-- 
+- change module: docker-py to docker 
 -
