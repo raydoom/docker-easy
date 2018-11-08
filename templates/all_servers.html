@@ -9,7 +9,7 @@
 {% block body %}
 <div class="page-header">
     <h1>All List
-        <small>controlled by supervisor</small>
+        <small>controlled by docker</small>
     </h1>
 </div>
 <div class="row">
@@ -17,9 +17,9 @@
         <ul class="nav nav-pills nav-stacked">
             {% for server in servers %}
             <li role="presentation" style="background-color: lemonchiffon  ">
-               <a href="#" onclick="show_server_status('{{server.id}}')">
+ <!--              <a href="#" onclick="show_server_status('{{server.id}}')">
                     {{server.host}}:{{server.port}} {{server.Id}}
-                </a>
+ -->               </a>
             </li>
             {% endfor %}
         </ul>
@@ -28,11 +28,8 @@
     </div>
 </div>
 
-
-{% for container_info in all_container_list %}
-
-<!--<h4>{{uri}}</h4>-->
-<h3>Host: {{container_info.host}}</h3>
+{% for server in server_all_list %}
+<h3>Host: {{server.server_ip}}</h3>
 <table class="table table-striped">
     <tr>
         <th width="10%">state</th>
@@ -41,15 +38,51 @@
         <th width="30%">description</th>
         <th colspan="4" width="10%">operation</th>
     </tr>
-    
+    {% for container in server["containers"]%}
+    <tr>
+        <td>
+            {% if container.State == 'running' %}
+                <span style="background-color: lightgreen">
+                 {% elif container.State == 'exited' %}
+                <span style="background-color: lightgray">
+                 {% else %}
+                <span style="background-color: yellow">
+                    {% endif %}
+                    {{container.State}}
+                </span>
+        </td>
+        <td>{{container.Names}}</td>
+        <td>{{server.server_ip}}</td>
+        <td>{{container.Status}}</td>
+        <td>
+            <button class="btn btn-primary btn-xs"
+                    onclick="container_opt('{{server.server_ip}}', '{{server.server_port}}' , '{{container.Id}}', 'start')">
+                start
+            </button>
+        </td>
+        <td>
+            <button class="btn btn-primary btn-xs"
+                    onclick="container_opt('{{server.server_ip}}', '{{server.server_port}}',  '{{container.Id}}', 'restart')">
+                restart
+            </button>
+        </td>
+        <td>
+            <button class="btn btn-primary btn-xs"
+                    onclick="container_opt('{{server.server_ip}}', '{{server.server_port}}',  '{{container.Id}}', 'stop')">
+                stop
+            </button>
+        </td>
+        <td>
+            <button class="btn btn-primary btn-xs"
+                    onclick="tail_log('{{server.server_ip}}', '{{server.server_port}}',  '{{container.Id}}')">
+                tail
+            </button>
+        </td>
+
+    </tr>
+    {% endfor %}
 </table>
 {% endfor %}
-
-
 {% endblock %}
-
-
-
-
 </body>
 </html>

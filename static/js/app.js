@@ -1,5 +1,5 @@
 /**
- * Created by brianyang on 16-6-28.
+ * appjs.
  */
 function parse_result(data) {
     if (data.ret) {
@@ -8,26 +8,21 @@ function parse_result(data) {
         alert('failed!')
     }
 }
-function batch_group_opt(group, opt) {
-    $.get("/group_batch/" + group + "/" + opt + "/", function (data, status) {
+
+function container_opt(server_ip, server_port, container_Id, opt) {
+    $.get("/" + server_ip + "/" + server_port + "/" + container_Id + "/" + opt + "/", function (data, status) {
         parse_result(data)
     });
 }
-function batch_server_opt(server_id, opt) {
-    $.get("/server_batch/" + server_id + "/" + opt + "/", function (data, status) {
-        parse_result(data)
-    });
+
+
+function tail_log(server_ip, server_port, container_Id) {
+    window.open("/" + server_ip + "/" + server_port + "/" + container_Id + "/tail/")
 }
-function app_opt(server_id, group, app, opt) {
-    $.get("/" + server_id + "/" + group + "/" + app + "/" + opt + "/", function (data, status) {
-        parse_result(data)
-    });
-}
-function tail_log(server_id, group, app) {
-    window.open("/" + server_id + "/" + group + "/" + app + "/tail/")
-}
+
 function show_server_status(server_id) {
-    $.get("/server/" + server_id + "/status/", function (data, status) {
+    $.get("/" + server_ip + "/" + server_port + "/" + container_Id + "/"+ "/status/", function (data, status) {
         $('#server_div').html(data)
     });
 }
+
