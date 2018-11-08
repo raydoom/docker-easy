@@ -40,7 +40,7 @@ The docker host must open the Remote API, to do this ,just modify `/etc/docker/d
 }
 ```
 
-## Run:
+## Run
 run this program  `python webui.py` 
 open http://ip:8896/all_servers/
 
