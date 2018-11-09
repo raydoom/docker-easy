@@ -1,9 +1,9 @@
 # Change Log
 
-### 2018/11/05
+### 2018/11/09
 
->- fix a bug: if supervisor host is down, all_server page will crash with 500 error
+>- update docker-py1.10.2 to docker3.5.1
 
-### 2018/11/02
+### 2018/11/06
 
->- add All List lab，Show all hosts and their applications
+>- init
