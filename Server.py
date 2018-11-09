@@ -23,62 +23,44 @@ class Server(object):
 			self.name = name
 		else:
 			self.name = '%s:%d' % (self.host, self.port)
-		self.docker_client = docker.Client(base_url='tcp://%s:%d' % (self.host, self.port))
-
-
-	def get_container_info(self, container_uuid):
-		container_info = {}
-		try:
-			container_info = self.docker_client.containers(container_uuid)
-			container_info['host'] = self.host
-			container_info['port'] = self.port
-			container_info['id']   = self.id
-		except Exception as e:
-			logging.error(e)
-		return container_info
-
+		self.docker_client = docker.DockerClient(base_url='tcp://%s:%d' % (self.host, self.port),version='1.21')
 
 	def get_all_container_info(self):
 		container_infos = {}
 		try:
-			container_infos = self.docker_client.containers(all=1)
-			for container_info in container_infos:
-				container_info['host'] = self.host
-				container_info['port'] = self.port
-				container_info['id']   = self.id
+			containers = self.docker_client.containers.list(all=1)
+			container_infos['host'] = self.host
+			container_infos['port'] = self.port
+			container_infos['id']   = self.id
+			container_infos['containers'] = self.docker_client.containers.list(all=1)
 		except Exception as e:
 			logging.error(e)
 		return container_infos
 	
-	def start_container(self, container_uuid):
-		self.docker_client.start(container_uuid)
+	def start_container(self, container_id):
+		(self.docker_client.containers.get(container_id)).start()
 		return True
 
-	def stop_container(self, container_uuid):
-		self.docker_client.stop(container_uuid)
+	def stop_container(self, container_id):
+		(self.docker_client.containers.get(container_id)).stop()
 		return True
 
-	def restart_container(self, container_uuid):
-		self.docker_client.restart(container_uuid)
+	def restart_container(self, container_id):
+		(self.docker_client.containers.get(container_id)).restart()
 		return True
 
-	def get_container_state(self, container_uuid):
-		container_infos = self.docker_client.containers(all=1)
-		for container_info in container_infos:
-			if container_info['Id'] == container_uuid:
-				container_state = container_info['State']
-
-	def tail_log(self, container_uuid, format_func):
-		func = self.docker_client.logs
+	def tail_log(self, container_id, format_func):
+		func = self.docker_client.containers.get(container_id).logs
 		log_old, log_new = '', ''
 		secs = 0
 		while secs < 300 :		
-			log = func(container_uuid, tail=15)
+			log = func(tail=15)
 			log = log.decode()
 			time.sleep(0.5)
 			secs = secs+1
 			log_old = log_new
 			log_new = log
+			print (log)
 			for log_line in log.split('\n'):
 				time_stamp = get_time_stamp()
 				log_line = '[' + time_stamp + ']--' + log_line

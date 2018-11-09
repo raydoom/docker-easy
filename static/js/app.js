@@ -9,20 +9,13 @@ function parse_result(data) {
     }
 }
 
-function container_opt(server_ip, server_port, container_Id, opt) {
-    $.get("/" + server_ip + "/" + server_port + "/" + container_Id + "/" + opt + "/", function (data, status) {
+function container_opt(server_ip, server_port, container_id, opt) {
+    $.get("/" + server_ip + "/" + server_port + "/" + container_id + "/" + opt + "/", function (data, status) {
         parse_result(data)
     });
 }
 
 
-function tail_log(server_ip, server_port, container_Id) {
-    window.open("/" + server_ip + "/" + server_port + "/" + container_Id + "/tail/")
+function tail_log(server_ip, server_port, container_id) {
+    window.open("/" + server_ip + "/" + server_port + "/" + container_id + "/tail/")
 }
-
-function show_server_status(server_id) {
-    $.get("/" + server_ip + "/" + server_port + "/" + container_Id + "/"+ "/status/", function (data, status) {
-        $('#server_div').html(data)
-    });
-}
-

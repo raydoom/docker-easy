@@ -29,10 +29,10 @@
 </div>
 
 {% for server in server_all_list %}
-<h3>Host: {{server.server_ip}}</h3>
+<h3>Host: {{server.host}}</h3>
 <table class="table table-striped">
     <tr>
-        <th width="10%">state</th>
+        <th width="10%">status</th>
         <th width="30%">app</thw>
         <th width="20%">location</th>
         <th width="30%">description</th>
@@ -41,40 +41,49 @@
     {% for container in server["containers"]%}
     <tr>
         <td>
-            {% if container.State == 'running' %}
+            {% if container.status == 'running' %}
                 <span style="background-color: lightgreen">
-                 {% elif container.State == 'exited' %}
+                 {% elif container.status == 'exited' %}
                 <span style="background-color: lightgray">
                  {% else %}
                 <span style="background-color: yellow">
                     {% endif %}
-                    {{container.State}}
+                    {{container.status}}
                 </span>
         </td>
-        <td>{{container.Names}}</td>
-        <td>{{server.server_ip}}</td>
-        <td>{{container.Status}}</td>
+        <td>{{container.name}}</td>
+        <td>{{server.host}}</td>
+        <td>{{container.attrs.Config.ExposedPorts}}</td>
         <td>
             <button class="btn btn-primary btn-xs"
-                    onclick="container_opt('{{server.server_ip}}', '{{server.server_port}}' , '{{container.Id}}', 'start')">
+                    onclick="container_opt('{{server.host}}', '{{server.port}}' , '{{container.id}}', 'start')">
                 start
             </button>
         </td>
         <td>
             <button class="btn btn-primary btn-xs"
-                    onclick="container_opt('{{server.server_ip}}', '{{server.server_port}}',  '{{container.Id}}', 'restart')">
+                server_ip={{server.host}} 
+                server_port={{server.port}} 
+                container_id={{container.id}}
+                    onclick="container_opt('{{server.host}}', '{{server.port}}',  '{{container.id}}', 'restart')">
                 restart
             </button>
         </td>
         <td>
             <button class="btn btn-primary btn-xs"
-                    onclick="container_opt('{{server.server_ip}}', '{{server.server_port}}',  '{{container.Id}}', 'stop')">
+                server_ip={{server.host}} 
+                server_port={{server.port}} 
+                container_id={{container.id}}
+                    onclick="container_opt('{{server.host}}', '{{server.port}}',  '{{container.id}}', 'stop')">
                 stop
             </button>
         </td>
         <td>
             <button class="btn btn-primary btn-xs"
-                    onclick="tail_log('{{server.server_ip}}', '{{server.server_port}}',  '{{container.Id}}')">
+                server_ip={{server.host}} 
+                server_port={{server.port}} 
+                container_id={{container.id}}
+                    onclick="tail_log('{{server.host}}', '{{server.port}}',  '{{container.id}}')">
                 tail
             </button>
         </td>

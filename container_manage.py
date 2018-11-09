@@ -14,13 +14,13 @@ def parse_server_config(server, server_dict):
     else:
         return server_dict.get(parts[0]), parts[1]
 
-def container_option(server, container_Id, opt):
+def container_option(server, container_id, opt):
     if opt == 'start':
-        server.start_container(container_Id)
+        server.start_container(container_id)
         return True
     if opt == 'stop':
-        server.stop_container(container_Id)
+        server.stop_container(container_id)
         return True
     if opt == 'restart':
-        server.restart_container(container_Id)
+        server.restart_container(container_id)
         return True
