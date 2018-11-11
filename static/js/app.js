@@ -7,6 +7,7 @@ function parse_result(data) {
     } else {
         alert('failed!')
     }
+    window.location.reload()
 }
 
 function container_opt(server_ip, server_port, container_id, opt) {

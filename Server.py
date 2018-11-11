@@ -3,22 +3,16 @@ __author__ = 'ma'
 
 import time
 import docker
-from uuid import uuid4
 import logging
 
-def get_time_stamp():
-    ct = time.time()
-    local_time = time.localtime(ct)
-    data_head = time.strftime("%Y-%m-%d %H:%M:%S", local_time)
-    data_secs = (ct - int(ct)) * 1000
-    time_stamp = "%s.%03d" % (data_head, data_secs)
-    return time_stamp
+from common_func import get_time_stamp
+
 
 class Server(object):
 	def __init__(self, host, port, name=None):
 		self.host = host
 		self.port = port
-		self.id = str(uuid4())
+		self.id = host
 		if name:
 			self.name = name
 		else:
@@ -50,11 +44,11 @@ class Server(object):
 		return True
 
 	def tail_log(self, container_id, format_func):
-		func = self.docker_client.containers.get(container_id).logs
+		func_tail_log = self.docker_client.containers.get(container_id).logs
 		log_old, log_new = '', ''
 		secs = 0
-		while secs < 300 :		
-			log = func(tail=15)
+		while secs < 60 :		
+			log = func_tail_log(tail=15)
 			log = log.decode()
 			time.sleep(0.5)
 			secs = secs+1
